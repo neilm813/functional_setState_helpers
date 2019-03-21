@@ -38,7 +38,7 @@ export const concatKey = makeUpdater(
 );
 
 // usage:
-  // this.setState('users', 0, 1, [{name: 'neil'}, {name: 'ryan'}]);
+  // this.setState(spliceKey('users', 0, 1, [{name: 'neil'}, {name: 'ryan'}]));
   // this.setState(spliceKey('users', prevArr => prevArr.findIndex(user => user.name === 'ryan'), 1));
 export const spliceKey = makeUpdater((prevState, key, startIdx, delCnt, insertItems = [], ignoreNegativeOne = true) => {
 
