@@ -8,11 +8,28 @@
           - adding new keys and/or changing multiple keys together
       */ 
 
-const makeUpdater = apply => (...rest) => state => {
+/* 
+  this.state should not be relied upon for calculating new state because setState is async so you risk accessing the value of this.state
+  before a queued update. This problem is averted by passing setState a function which it will call and pass the current state and props to.
+
+  Explanation with toggleKey as example:
+
+      1. makeUpdater is passed one arg `apply`, which is a function
+      2. makeUpdater returns a fn stored in const `toggleKey` which can accept any number of args when called
+      3. When `toggleKey` is called, another fn is returned which is the fn that setState will use as a callback
+      4. setState invokes the callback and passes the current state as an arg
+      5. the setState callback calls `apply` and passes the current state and all of the args passed to the toggleKey fn
+        in this case, only a key name because state is not passed in by you, but by setState when it invokes the callback
+      6. The `apply` fn returns a new object with the provided `key` as it's only key, the value of which is the opposite of the
+        current value of that key on the current state object
+      
+ */
+
+const makeUpdater = (apply) => (...rest) => (state) => {
   return apply(state, ...rest);
 }
 
-const makeUpdaterWithProps = apply => (...rest) => (state, props) => {
+const makeUpdaterWithProps = (apply) => (...rest) => (state, props) => {
   return apply(state, props, ...rest);
 }
 
