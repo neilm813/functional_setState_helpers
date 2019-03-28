@@ -39,8 +39,10 @@ const makeUpdaterWithProps = (apply) => (...rest) => (state, props) => {
 // An updater fn can be also be made to update multiple keys, each key/keyPath could be copied
   // and updated and then the copied objects merged
 
-// usage: this.setState(toggleKey('nestedObj.clicked'));
-// usage: this.setState(toggleKey('[nested-obj].clicked'));
+// usage:
+  // this.setState(toggleKey('clicked'));
+  // this.setState(toggleKey('nestedObj.clicked'));
+  // this.setState(toggleKey('nestedObj[clicked]'));
 export const toggleKey = makeUpdater(
   (prevState, keyPath) => copyObjPath(prevState, keyPath, prev => !prev)
 );
@@ -74,6 +76,8 @@ export const spliceKey = makeUpdater((prevState, keyPath, startIdx, delCnt, inse
   });
   return statePathCopy;
 });
+
+
 
 // examples (doesn't support nested keys):
 
